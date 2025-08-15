@@ -67,6 +67,7 @@ const BookStore = mongoose.model("BookStore", bookstoreSchema);
 
 // Create an Express Router instance to handle bookstore-related routes.
 const router = express.Router();
+const documentRouter = express.Router();
 
 // Mount the router middleware at the '/api/bookstores' path.
 // All routes defined on this router will be prefixed with '/api/bookstores'.
@@ -183,11 +184,11 @@ const Document = mongoose.model("Document", documentSchema);
 
 // Mount the router middleware at the '/api/documents' path.
 // All routes defined on this router will be prefixed with '/api/documents'.
-app.use("/api/documents", router);
+app.use("/api/documents", documentRouter);
 
 // Route to get all documents from the database.
 // Handles GET requests to '/api/documents/'.
-router.route("/").get(async (req, res) => {
+documentRouter.route("/").get(async (req, res) => {
   // Added async
   try {
     const documents = await Document.find(); // Added await
@@ -199,7 +200,7 @@ router.route("/").get(async (req, res) => {
 
 // Route to get a specific document by its ID.
 // Handles GET requests to '/api/documents/:id'.
-router.route("/:id").get(async (req, res) => {
+documentRouter.route("/:id").get(async (req, res) => {
   // Added async
   try {
     const document = await Document.findById(req.params.id); // Added await
@@ -211,7 +212,7 @@ router.route("/:id").get(async (req, res) => {
 
 // Route to add a new document to the database.
 // Handles POST requests to '/api/documents/add'.
-router.route("/add").post(async (req, res) => {
+documentRouter.route("/add").post(async (req, res) => {
   // Added async
   // Extract attributes from the request body.
   const text = req.body.text;
@@ -231,7 +232,7 @@ router.route("/add").post(async (req, res) => {
 
 // Route to update an existing document by its ID.
 // Handles PUT requests to '/api/documents/update/:id'.
-router.route("/update/:id").put(async (req, res) => {
+documentRouter.route("/update/:id").put(async (req, res) => {
   // Added async
   try {
     const document = await Document.findById(req.params.id); // Added await
@@ -251,7 +252,7 @@ router.route("/update/:id").put(async (req, res) => {
 
 // Route to delete a document by its ID.
 // Handles DELETE requests to '/api/documents/delete/:id'.
-router.route("/delete/:id").delete(async (req, res) => {
+documentRouter.route("/delete/:id").delete(async (req, res) => {
   // Added async
   try {
     const deletedDocument = await Document.findByIdAndDelete(req.params.id); // Added await
